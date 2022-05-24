@@ -1,23 +1,39 @@
 #ifndef INDICATOR_SERVICE_HPP
 #define INDICATOR_SERVICE_HPP
 
-#include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
 #include "service/Logger.hpp"
 
 class IndicatorService
 {
 private:
   Log logger = Log();
-  int baudrate, rx, tx;
+  int baudrate;
+  SoftwareSerial *serial;
 
 public:
   IndicatorService() {}
 
-  IndicatorService(int baudrate, int tx, int rx)
+  IndicatorService(int baudrate, SoftwareSerial *serial)
   {
     (*this).baudrate = baudrate;
-    (*this).tx = tx;
-    (*this).rx = rx;
+    (*this).serial = serial;
+    (*serial).begin(baudrate);
+  }
+
+  int readMessage()
+  {
+    while (available() > 0)
+    {
+      return (*serial).read();
+    }
+    return 0;
+  }
+
+private:
+  int available()
+  {
+    return (*serial).available();
   }
 };
 

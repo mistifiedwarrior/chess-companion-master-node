@@ -22,13 +22,19 @@ public:
   {
     wsClient.connectIfDisconnected();
     wsClient.poll();
+    int message = masterService.readMessage();
+    if (message > 0)
+    {
+      // logic for message
+    }
   }
 
 private:
   PartialMessageCallback onMessageCallback()
   {
-    return [&](WebsocketsMessage message) {
-
+    return [&](WebsocketsMessage message)
+    {
+      // logic for input message
     };
   }
 };

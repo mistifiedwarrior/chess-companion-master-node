@@ -22,9 +22,15 @@ void setup()
   WifiController wifiController = WifiController(ssid, password);
   wifiController.connect();
 
-  PiecesService piecesService = PiecesService(baudrate, piecesTx, piecesRx);
-  ArmService armService = ArmService(baudrate, armTx, armRx);
-  IndicatorService indicatorService = IndicatorService(baudrate, indicatorTx, indicatorRx);
+  SoftwareSerial pieceSerial = SoftwareSerial(piecesRx, piecesTx, false);
+  PiecesService piecesService = PiecesService(baudrate, &pieceSerial);
+
+  SoftwareSerial armSerial = SoftwareSerial(armRx, armTx, false);
+  ArmService armService = ArmService(baudrate, &armSerial);
+
+  SoftwareSerial indicatorSerial = SoftwareSerial(indicatorRx, indicatorTx, false);
+  IndicatorService indicatorService = IndicatorService(baudrate, &indicatorSerial);
+
   ChessGateway chessGateway = ChessGateway(baseUrl, authorization);
 
   MasterService masterService = MasterService(piecesService, indicatorService, armService, chessGateway);
@@ -36,7 +42,7 @@ void setup()
   {
     wifiController.connectIfDisconnected();
     masterController.loop();
-    delay(1000);
+    delay(100);
   }
 }
 

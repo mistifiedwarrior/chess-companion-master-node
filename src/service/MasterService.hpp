@@ -30,6 +30,11 @@ public:
     (*this).armService = armService;
     (*this).chessGateway = chessGateway;
   }
+
+  int readMessage()
+  {
+    return piecesService.readMessage() || indicatorService.readMessage() || armService.readMessage();
+  }
 };
 
 #endif
