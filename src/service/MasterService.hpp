@@ -31,9 +31,17 @@ public:
     (*this).chessGateway = chessGateway;
   }
 
-  int readMessage()
+  String readMessage()
   {
-    return piecesService.readMessage() || indicatorService.readMessage() || armService.readMessage();
+    if (piecesService.available() > 0)
+    {
+      return piecesService.readMessage();
+    }
+    if (indicatorService.available() > 0)
+    {
+      return indicatorService.readMessage();
+    }
+    return armService.readMessage();
   }
 };
 

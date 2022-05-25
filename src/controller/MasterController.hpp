@@ -22,8 +22,8 @@ public:
   {
     wsClient.connectIfDisconnected();
     wsClient.poll();
-    int message = masterService.readMessage();
-    if (message > 0)
+    String message = masterService.readMessage();
+    if (message != "")
     {
       // logic for message
     }

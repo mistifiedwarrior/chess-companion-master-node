@@ -21,13 +21,15 @@ public:
     (*serial).begin(baudrate);
   }
 
-  int readMessage()
+  String readMessage()
   {
+    String message = "";
     while (available() > 0)
     {
-      return (*serial).read();
+      char str = (*serial).read();
+      message += str;
     }
-    return 0;
+    return message;
   }
 
 private:
